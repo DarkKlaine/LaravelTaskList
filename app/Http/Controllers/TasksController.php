@@ -11,22 +11,36 @@ class TasksController extends Controller
     {
         $tasks = auth()->user()->tasks();
 
-        return view('dashboard', compact('tasks'));
+        return view('tasks/main', compact('tasks'));
     }
 
     public function add()
     {
-        return view('add');
+        return view('tasks/add');
+    }
+
+    public function look(Task $task)
+    {
+        if (auth()->user()->id == $task->user_id) {
+            return view('tasks/look', compact('task'));
+        } else {
+            return redirect('/dashboard');
+        }
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
-            'description' => 'required'
+            'description' => 'required',
         ]);
         $task = new Task();
         $task->description = $request->description;
+        if ($request->name) {
+            $task->name = $request->name;
+        }
+
         $task->user_id = auth()->user()->id;
+
         $task->save();
 
         return redirect('/dashboard');
@@ -35,7 +49,7 @@ class TasksController extends Controller
     public function edit(Task $task)
     {
         if (auth()->user()->id == $task->user_id) {
-            return view('edit', compact('task'));
+            return view('tasks/edit', compact('task'));
         } else {
             return redirect('/dashboard');
         }
@@ -47,9 +61,13 @@ class TasksController extends Controller
             $task->delete();
         } else {
             $this->validate($request, [
-                'description' => 'required'
+                'description' => 'required',
             ]);
             $task->description = $request->description;
+            if ($request->name) {
+                $task->name = $request->name;
+            }
+
             $task->save();
         }
 

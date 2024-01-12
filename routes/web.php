@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/task', [TasksController::class, 'add']);
     Route::post('/task', [TasksController::class, 'create']);
 
-    Route::get('/task/{task}', [TasksController::class, 'edit']);
+    Route::get('/task/{task}', [TasksController::class, 'look']);
+    Route::get('/task/edit/{task}', [TasksController::class, 'edit']);
     Route::post('/task/{task}', [TasksController::class, 'update']);
 });
