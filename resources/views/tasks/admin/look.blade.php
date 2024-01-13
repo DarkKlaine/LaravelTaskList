@@ -2,8 +2,6 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Просмотр пользователя - ') }} {{$user->name}}
-            <a href="{{ route('admin') }}"
-               class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Назад</a>
         </h2>
     </x-slot>
 
@@ -15,12 +13,6 @@
                         <thead>
                         <tr class="border-b">
                             <th class="text-right p-3 px-5">
-                                {{--                            <a href="{{ route('admin.editUser', ['user' => $user->id]) }}" class="inline-block text-sm bg-indigo-500 hover:bg-indigo-500 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Изменить</a>--}}
-                                {{--                            <form action="{{ route('admin.updateUser', ['user' => $user->id]) }}" class="inline-block" onsubmit="return confirm('Вы уверены, что хотите выполнить это действие?')">--}}
-                                {{--                                <button type="submit" name="delete" formmethod="POST" class="text-sm bg-red-500 text-white py-1 px-2 rounded">Удалить</button>--}}
-                                {{--                                {{ csrf_field() }}--}}
-                                {{--                            </form>--}}
-                                {{--                            <a href="{{ route('admin') }}" class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Назад</a>--}}
                             </th>
                         </tr>
                         </thead>

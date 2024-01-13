@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/admin', [TasksAdminController::class, 'lookUsers'])->name('admin');
     Route::get('/admin/user-{user}', [TasksAdminController::class, 'lookUser'])->name('admin.lookUser');
     Route::get('/admin/user-{user}/edit', [TasksAdminController::class, 'editUser'])->name('admin.editUser');
-    Route::post('/admin/user-{user}', [TasksAdminController::class, 'updateUser'])->name('admin.updateUser');
+    Route::post('/admin/user-{user}/edit', [TasksAdminController::class, 'updateUser'])->name('admin.updateUser');
+    Route::post('/admin/user-{user}', [TasksAdminController::class, 'deleteUser'])->name('admin.deleteUser');
 
 });

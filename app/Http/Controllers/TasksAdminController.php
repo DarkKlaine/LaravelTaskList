@@ -31,35 +31,38 @@ class TasksAdminController extends Controller
 
     public function updateUser(Request $request, User $user)
     {
-        if ($request->has('delete')) {
-            $tasks = Task::query()
-                ->where('user_id', $user->id)
-                ->get();
+        $this->validate($request, [
+            'name' => 'required|min:2|max:255',
+            'email' => 'required|max:255|email',
+            'password' => 'nullable|min:8|max:255|confirmed',
+            'password_confirmation' => 'nullable|min:8|max:255',
+        ]);
 
-            foreach ($tasks as $task) {
-                $task->delete();
-            }
+        $user->name = $request->name;
+        $user->email = $request->email;
 
-            $user->delete();
-        } else {
-            $this->validate($request, [
-                'name' => 'required|min:2|max:255',
-                'email' => 'required|max:255|email',
-                'password' => 'nullable|min:8|max:255|confirmed',
-                'password_confirmation' => 'nullable|min:8|max:255',
-            ]);
+        $user->syncRoles($request->roles);
 
-            $user->name = $request->name;
-            $user->email = $request->email;
-
-            $user->syncRoles($request->roles);
-
-            if ($request->password !== null) {
-                $user->password = Hash::make($request->password);
-            }
-
-            $user->save();
+        if ($request->password !== null) {
+            $user->password = Hash::make($request->password);
         }
+
+        $user->save();
+
+        return redirect()->route('admin.lookUser', ['user' => $user->id]);
+    }
+
+    public function deleteUser(User $user)
+    {
+        $tasks = Task::query()
+            ->where('user_id', $user->id)
+            ->get();
+
+        foreach ($tasks as $task) {
+            $task->delete();
+        }
+
+        $user->delete();
 
         return redirect()->route('admin');
     }

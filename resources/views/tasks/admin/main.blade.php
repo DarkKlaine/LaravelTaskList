@@ -25,8 +25,8 @@
 
                                 <a href="{{ route('admin.lookUser', ['user' => $user->id]) }}"
                                    class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Посмотреть</a>
-                                <form action="{{ route('admin.updateUser', ['user' => $user->id]) }}" class="inline-block" onsubmit="return confirm('Вы уверены, что хотите выполнить это действие?')">
-                                    <button type="submit" name="delete" formmethod="POST"
+                                <form action="{{ route('admin.deleteUser', ['user' => $user->id]) }}" class="inline-block" onsubmit="return confirm('Вы уверены, что хотите выполнить это действие?')">
+                                    <button type="submit" name="delete" formmethod="post"
                                             class="text-sm bg-red-500 text-white py-1 px-2 rounded">Удалить
                                     </button>
                                     {{ csrf_field() }}
