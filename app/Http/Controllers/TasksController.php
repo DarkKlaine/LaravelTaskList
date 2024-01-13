@@ -9,7 +9,9 @@ class TasksController extends Controller
 {
     public function index()
     {
-        $tasks = auth()->user()->tasks();
+        $tasks = Task::query()
+                ->where('user_id', auth()->id())
+                ->get();
 
         return view('tasks/main', compact('tasks'));
     }
@@ -21,29 +23,29 @@ class TasksController extends Controller
 
     public function look(Task $task)
     {
-        if (auth()->user()->id == $task->user_id) {
-            return view('tasks/look', compact('task'));
-        } else {
-            return redirect('/dashboard');
+        if (auth()->user()->id !== $task->user_id) {
+            abort(404);
         }
+
+        return view('tasks/look', compact('task'));
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
             'description' => 'required',
+            'name' => 'required',
         ]);
         $task = new Task();
         $task->description = $request->description;
-        if ($request->name) {
-            $task->name = $request->name;
-        }
+        $task->name = $request->name;
+
 
         $task->user_id = auth()->user()->id;
 
         $task->save();
 
-        return redirect('/dashboard');
+        return redirect()->route('dashboard');
     }
 
     public function edit(Task $task)
@@ -51,7 +53,7 @@ class TasksController extends Controller
         if (auth()->user()->id == $task->user_id) {
             return view('tasks/edit', compact('task'));
         } else {
-            return redirect('/dashboard');
+            return redirect()->route('dashboard');
         }
     }
 
@@ -62,15 +64,14 @@ class TasksController extends Controller
         } else {
             $this->validate($request, [
                 'description' => 'required',
+                'name' => 'required',
             ]);
             $task->description = $request->description;
-            if ($request->name) {
-                $task->name = $request->name;
-            }
+            $task->name = $request->name;
 
             $task->save();
         }
 
-        return redirect('/dashboard');
+        return redirect()->route('dashboard');
     }
 }

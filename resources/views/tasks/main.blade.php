@@ -12,18 +12,17 @@
                 <table class="w-full text-md rounded mb-4">
                     <thead>
                     <tr class="border-b">
-                        <th class="text-left p-3 px-5">Задача</th>
-                        <th class="text-left p-3 px-5">Действия</th>
-                        <th></th>
+                        <th class="text-center p-3 px-5">Задача</th>
+                        <th class="text-center p-3 px-5">Действия</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach(auth()->user()->tasks as $task)
+                    @foreach($tasks as $task)
                         <tr class="border-b hover:bg-gray-100 text-center">
                             <td class="p-3 px-5">
                                 <a href="/task/{{$task->id}}">{{$task->name}}</a>
                             </td>
-                            <td style="width: 15%" class="p-3 px-5">
+                            <td style="width: 20%" class="p-3 px-5">
 
                                 <a href="/task/edit/{{$task->id}}" name="edit" class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Изменить</a>
                                 <form action="/task/{{$task->id}}" class="inline-block">
