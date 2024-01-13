@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TasksAdminController;
 use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
-    Route::get('/dashboard',[TasksController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [TasksController::class, 'index'])->name('dashboard');
 
     Route::get('/task', [TasksController::class, 'add']);
     Route::post('/task', [TasksController::class, 'create']);
@@ -27,4 +28,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/task/{task}', [TasksController::class, 'look']);
     Route::get('/task/edit/{task}', [TasksController::class, 'edit']);
     Route::post('/task/{task}', [TasksController::class, 'update']);
+
+    Route::get('/admin', [TasksAdminController::class, 'lookUsers'])->name('admin');
+    Route::get('/admin/user-{user}', [TasksAdminController::class, 'lookUser'])->name('admin.lookUser');
+    Route::get('/admin/user-{user}/edit', [TasksAdminController::class, 'editUser'])->name('admin.editUser');
+    Route::post('/admin/user-{user}', [TasksAdminController::class, 'updateUser'])->name('admin.updateUser');
+
 });

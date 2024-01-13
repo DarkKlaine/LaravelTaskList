@@ -1,8 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Список задач') }}
-            <a href="/task" class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Добавить задачу</a>
+            {{ __('Список пользователей') }}
         </h2>
     </x-slot>
 
@@ -17,16 +16,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($tasks as $task)
+                    @foreach($users as $user)
                         <tr class="border-b hover:bg-gray-100 text-center">
                             <td class="p-3 px-5">
-                                <a href="/task/{{$task->id}}">{{$task->name}}</a>
+                                <a href="{{ route('admin.lookUser', ['user' => $user->id]) }}">{{$user->name}}</a>
                             </td>
-                            <td style="width: 20%" class="p-3 px-5">
+                            <td style="width: 30%" class="p-3 px-5">
 
-                                <a href="/task/edit/{{$task->id}}" name="edit" class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Изменить</a>
-                                <form action="/task/{{$task->id}}" class="inline-block" onsubmit="return confirm('Вы уверены, что хотите выполнить это действие?')">
-                                    <button type="submit" name="delete" formmethod="POST" class="text-sm bg-red-500 text-white py-1 px-2 rounded">Удалить</button>
+                                <a href="{{ route('admin.lookUser', ['user' => $user->id]) }}"
+                                   class="inline-block text-sm bg-indigo-500 text-white py-1 px-2 rounded">Посмотреть</a>
+                                <form action="{{ route('admin.updateUser', ['user' => $user->id]) }}" class="inline-block" onsubmit="return confirm('Вы уверены, что хотите выполнить это действие?')">
+                                    <button type="submit" name="delete" formmethod="POST"
+                                            class="text-sm bg-red-500 text-white py-1 px-2 rounded">Удалить
+                                    </button>
                                     {{ csrf_field() }}
                                 </form>
                             </td>

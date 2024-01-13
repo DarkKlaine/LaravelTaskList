@@ -10,8 +10,8 @@ class TasksController extends Controller
     public function index()
     {
         $tasks = Task::query()
-                ->where('user_id', auth()->id())
-                ->get();
+            ->where('user_id', auth()->id())
+            ->get();
 
         return view('tasks/main', compact('tasks'));
     }
